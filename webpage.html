@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Assignment-3</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.18.2"></script>
+  </head>
+  <center>
+  <body>
+    <div id="vis"></div>
+
+    <script type="text/javascript">
+      var mySpec = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "data": {"url": "https://raw.githubusercontent.com/dhruvmehtadm/dhruvm.github.io/main/building_inventory.csv"},
+            "vconcat": [
+            {
+              "hconcat": [
+              {
+                "width": 283, "height":283,
+                "mark": {
+                  "type": "point", 
+                  "tooltip": true
+                  },
+                "transform": [{
+                    "filter": {"field": "Year Acquired", "range": [1750, 2020]}},
+                    {"filter": {"field": "Year Constructed", "range": [1750, 2020]}
+                  }],
+                "encoding": {
+                  "x": {
+                    "field": "Year Constructed",
+                    "type": "quantitative",
+                    "scale": {"domain": [1750, 2020]}
+                  },
+                  "y": {
+                    "field": "Year Acquired",
+                    "type": "quantitative",
+                    "scale": {"domain": [1750, 2020]}
+                  }
+                }
+              },
+              {
+                "width": 283, "height":283,
+                "mark": "line",
+                "params": [{
+                    "name": "grid",
+                    "select": "interval",
+                    "bind": "scales"
+                  }],
+                "transform": [{
+                    "filter": {"field": "Year Acquired", "range": [1840, 2020]}
+                  }],
+                "encoding": {
+                  "x": {
+                    "field": "Year Acquired",
+                    "type": "quantitative"
+                  },
+                  "y": {
+                    "field": "Square Footage",
+                    "type": "quantitative",
+                    "aggregate": "sum",
+                    "title": "Total Square Footage"
+                  },
+                  "color": {
+                    "field": "Agency Name",
+                    "type": "nominal",
+                    "scale": {
+                      "domain": [
+                            "Department of Natural Resources", "Department of Corrections", "Department of Transportation", "Department of Human Services"
+                            ]
+                    }
+                  }
+                }
+              }
+            ]
+            },
+            {
+              "hconcat": [
+              {
+                "width": 283, "height":283,
+                "mark": "bar",
+                "encoding": {
+                  "x": {
+                    "field": "Congress Dist",
+                    "type": "quantitative",
+                    "title": "Congressional District"
+                  },
+                  "y": {
+                    "field": "Square Footage",
+                    "aggregate": "mean",
+                    "title": "Average Square Footage"
+                  },
+                  "tooltip": [
+                    {
+                      "field": "Congress Dist",
+                      "type": "quantitative",
+                      "title": "Congressional District"
+                    },
+                    {
+                      "field": "Square Footage",
+                      "aggregate": "average",
+                      "type": "quantitative",
+                      "title": "Average Square Footage"
+                    }
+                  ],
+                  "color": {
+                    "value": "steelblue"}
+                }
+              },
+              {
+                "width": 283, "height":283,
+                "mark": "bar",
+                "encoding": {
+                  "x": {
+                    "field": "Congress Dist",
+                    "type": "quantitative",
+                    "title": "Congressional District"
+                  },
+                  "y": {
+                    "field": "Square Footage",
+                    "aggregate": "sum",
+                    "type": "quantitative",
+                    "title": "Total Square Footage"
+                  },
+                  "tooltip": [
+                    {
+                      "field": "Congress Dist",
+                      "type": "quantitative",
+                      "title": "Congressional District"
+                    },
+                    {
+                      "field": "Square Footage",
+                      "aggregate": "sum",
+                      "type": "quantitative",
+                      "title": "Total Square Footage"
+                    }
+                  ],
+                  "color": {
+                    "value": "steelblue"
+                    }
+                }
+              }
+            ]
+            }
+          ]
+      };
+      vegaEmbed('#vis', mySpec);
+    </script>
+  </body>
+    </center>
+</html>
